@@ -6,13 +6,15 @@
 /*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:03:26 by supersko          #+#    #+#             */
-/*   Updated: 2024/10/18 15:58:34 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:41:46 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 1
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 2048
+# endif
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -21,7 +23,7 @@
 
 int		refresh_line(int fd, char *buff, char **next_line);
 size_t	ft_strlen(const char *s);
-void	format_buff(char *buff);
+char	*format_buff(char *buff);
 char	*get_next_line(int fd);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

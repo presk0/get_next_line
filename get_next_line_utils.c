@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/17 13:40:15 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:27:52 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 char	*ft_strchr(const char *str, int c)
 {
-	while (*str != (char)c)
+	if (str)
 	{
-		if (!*str)
-			return (NULL);
-		str++;
+		while (*str != (char)c)
+		{
+			if (!*str)
+				return (NULL);
+			str++;
+		}
 	}
 	return ((char *)str);
 }
@@ -83,11 +86,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	ii = 0;
 	len_s1 = ft_strlen((char *) s1);
-	ret = (char *) malloc(sizeof(char) * (ft_strlen((char *) s2) + len_s1 + 1));
+	ret = (char *) calloc((ft_strlen((char *) s2) + len_s1 + 1), sizeof(char));
 	if (!ret)
 		return (NULL);
 	ii = 0;
-	while (ii < len_s1)
+	while (s1 && ii < len_s1)
 	{
 		ret[ii] = s1[ii];
 		ii++;
@@ -100,26 +103,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ret[ii] = '\0';
 	return (ret);
 }
-
-/*
-//
-#include <stdio.h>
-#include <string.h>
-#include "libft.h"
-// MAIN
-int main(void)
-{
-	char s1[1000];
-	char s2[1000];
-	char *verif;
-
-	strcpy(s1, "ch1 ");
-	strcpy(s2, "ch2");
-	verif = ft_strjoin(s1, s2);
-	if (ft_strncmp(verif, "ch1 et ch2", 20))
-	{
-		printf("Pb at ft_strjoin\n");
-	}
-	free(verif);
-}
-*/

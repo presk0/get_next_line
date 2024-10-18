@@ -6,11 +6,37 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/18 15:58:08 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:48:34 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*ft_bzero(void *s, size_t n)
+{
+	unsigned int	ii;
+
+	ii = 0;
+	while (ii < n)
+	{
+		*((char *) s + ii) = '\0';
+		ii++;
+	}
+	return (s);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+
+	if (size * count / size != count)
+		return (NULL);
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, count * size);
+	return (ptr);
+}
 
 int	refresh_line(int fd, char *buff, char **next_line)
 {
@@ -21,48 +47,58 @@ int	refresh_line(int fd, char *buff, char **next_line)
 	*next_line = ft_strjoin(*next_line, buff);
 	read_val = read(fd, buff, BUFFER_SIZE);
 	if (last_line)
+	{
 		free(last_line);
+		last_line = NULL;
+	}
 	return (read_val);
 }
 
-void	format_buff(char *buff)
+char	*format_buff(char *buff)
 {
 	char	*return_car;
 
 	return_car = ft_strchr(buff, '\n');
 	if (return_car)
 		ft_strlcpy(buff, return_car, BUFFER_SIZE);
+	return (ft_substr(buff, 0, return_car - buff));
+}
+
+char	*load_buff(int fd, char *buff)
+{
+	int		read_val;
+	char	*next_line;
+
+	read_val = 1;
+	next_line = NULL;
+	while (!ft_strchr(buff, '\n') && read_val)
+		read_val = refresh_line(fd, buff, &next_line);
+	if (!read_val)
+	{
+		free(next_line);
+		next_line = NULL;
+	}
+	return (next_line);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*buff;
 	char		*next_line;
-	int			read_val;
 
 	if (!buff)
-		buff = malloc(BUFFER_SIZE * sizeof(char) + 1);
+		buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buff)
 		return (NULL);
 	else
 		buff[BUFFER_SIZE] = '\0';
-	next_line = NULL;
 	if (!ft_strchr(buff, '\n'))
-	{
-		read_val = 1;
-		while (!ft_strchr(buff, '\n') && read_val)
-			read_val = refresh_line(fd, buff, &next_line);
-	}
-	if (!ft_strchr(buff, '\n'))
-	{
-		if (*buff == '\0')
-			return (NULL);
-		return (next_line);
-	}
-	format_buff(buff);
+		next_line = load_buff(fd, buff);
+	else
+		next_line = format_buff(buff);
 	return (next_line);
 }
-/*
+
 #include <stdio.h>
 
 void	get_next_line_tester(int argc, char **argv)
@@ -74,7 +110,11 @@ void	get_next_line_tester(int argc, char **argv)
 	{
 		fd = open(argv[1], O_RDONLY);
 		while ((line = get_next_line(fd)))
+		{
 			printf("%s\n", line);
+			free(line);
+			line = NULL;
+		}
 		close(fd);
 	}
 	else	
@@ -85,4 +125,3 @@ int	main(int argc, char **argv)
 	get_next_line_tester(argc, argv);
 	return (0);
 }
-*/
