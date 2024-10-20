@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/18 17:27:52 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/20 11:17:08 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,25 +81,27 @@ char	*ft_strchr(const char *str, int c)
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t			len_s1;
-	unsigned int	ii;
+	unsigned int	i;
 	char			*ret;
 
-	ii = 0;
+	if (!s1)
+		return (NULL);
+	i = 0;
 	len_s1 = ft_strlen((char *) s1);
-	ret = (char *) calloc((ft_strlen((char *) s2) + len_s1 + 1), sizeof(char));
+	ret = (char *) malloc(sizeof(char) * (ft_strlen((char *) s2) + len_s1 + 1));
 	if (!ret)
 		return (NULL);
-	ii = 0;
-	while (s1 && ii < len_s1)
+	i = 0;
+	while (i < len_s1)
 	{
-		ret[ii] = s1[ii];
-		ii++;
+		ret[i] = s1[i];
+		i++;
 	}
-	while (s2[ii - len_s1])
+	while (s2[i - len_s1])
 	{
-		ret[ii] = s2[ii - len_s1];
-		ii++;
+		ret[i] = s2[i - len_s1];
+		i++;
 	}
-	ret[ii] = '\0';
+	ret[i] = '\0';
 	return (ret);
 }

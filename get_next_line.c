@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/18 17:48:34 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/20 11:39:03 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int	refresh_line(int fd, char *buff, char **next_line)
 	int			read_val;
 
 	last_line = *next_line;
-	*next_line = ft_strjoin(*next_line, buff);
+	if (*next_line)
+		*next_line = ft_strjoin(*next_line, buff);
+	else
+		*next_line =ft_substr(buff, 0, BUFFER_SIZE);
 	read_val = read(fd, buff, BUFFER_SIZE);
 	if (last_line)
 	{
@@ -57,11 +60,13 @@ int	refresh_line(int fd, char *buff, char **next_line)
 char	*format_buff(char *buff)
 {
 	char	*return_car;
+	char	*next_line;
 
 	return_car = ft_strchr(buff, '\n');
+	next_line = ft_substr(buff, 0, return_car - buff);
 	if (return_car)
-		ft_strlcpy(buff, return_car, BUFFER_SIZE);
-	return (ft_substr(buff, 0, return_car - buff));
+		ft_strlcpy(buff, return_car + 1, BUFFER_SIZE);
+	return (next_line);
 }
 
 char	*load_buff(int fd, char *buff)
@@ -71,7 +76,7 @@ char	*load_buff(int fd, char *buff)
 
 	read_val = 1;
 	next_line = NULL;
-	while (!ft_strchr(buff, '\n') && read_val)
+	while (!ft_strchr(buff, '\n') && read_val > 0)
 		read_val = refresh_line(fd, buff, &next_line);
 	if (!read_val)
 	{
@@ -87,18 +92,20 @@ char	*get_next_line(int fd)
 	char		*next_line;
 
 	if (!buff)
+	{
 		buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buff)
-		return (NULL);
-	else
-		buff[BUFFER_SIZE] = '\0';
+		if (!buff)
+			return (NULL);
+		next_line = load_buff(fd, buff);
+		free(next_line);
+	}
 	if (!ft_strchr(buff, '\n'))
 		next_line = load_buff(fd, buff);
 	else
 		next_line = format_buff(buff);
 	return (next_line);
 }
-
+/*
 #include <stdio.h>
 
 void	get_next_line_tester(int argc, char **argv)
@@ -125,3 +132,4 @@ int	main(int argc, char **argv)
 	get_next_line_tester(argc, argv);
 	return (0);
 }
+*/
