@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/20 11:17:08 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:21:54 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	*ft_strchr(const char *str, int c)
 			str++;
 		}
 	}
+	else
+		return (NULL);
 	return ((char *)str);
 }
 
