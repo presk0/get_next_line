@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:08 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:11:19 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,54 +38,101 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-int	refresh_line(int fd, char *buff, char **next_line)
+char	*ft_strdup(const char *s1)
+{
+	int		i;
+	int		s_len;
+	char	*scpy;
+
+	s_len = ft_strlen(s1);
+	scpy = (char *) calloc(sizeof(char), s_len + 1);
+	if (!scpy)
+		return ((char *) 0);
+	i = 0;
+	while (i < s_len)
+	{
+		scpy[i] = s1[i];
+		i++;
+	}
+	return (scpy);
+}
+
+char	*line_from_buff(char *buff)
+{
+	char	*return_car;
+	char	*line;
+
+	line = NULL;
+	return_car = ft_strchr(buff, '\n');
+	if (!return_car)
+		return_car = ft_strlen(buff) + buff;
+	if (buff)
+		line = ft_substr(buff, 0, return_car - buff + 1);
+	return (line);
+}
+
+void	append_line(char *buff, char **next_line)
 {
 	char		*last_line;
-	int			read_val;
+	char		*new_line;;
 
 	last_line = *next_line;
+	new_line = line_from_buff(buff);
 	if (*next_line)
-		*next_line = ft_strjoin(*next_line, buff);
+		*next_line = ft_strjoin(*next_line, new_line);
 	else
-		*next_line =ft_substr(buff, 0, ft_strlen(buff) + 1);
-	read_val = read(fd, buff, BUFFER_SIZE);
+		*next_line = ft_strdup(new_line);
 	if (last_line)
 	{
 		free(last_line);
 		last_line = NULL;
 	}
-
-	return (read_val);
+	free(new_line);
+	new_line = NULL;
 }
 
-char	*format_buff(char *buff)
+void	format_buff(char *buff)
 {
 	char	*return_car;
-	char	*next_line;
 
 	return_car = ft_strchr(buff, '\n');
-	next_line = ft_substr(buff, 0, return_car - buff + 1);
 	if (return_car)
 		ft_strlcpy(buff, return_car + 1, BUFFER_SIZE);
-	return (next_line);
+	else
+		ft_bzero(buff, BUFFER_SIZE);
 }
 
-char	*load_buff(int fd, char **buff)
+//void	load_buff(int fd, char **buff)
+//{
+//	int		read_val;
+//	char	*next_line;
+//	char	*left_buff;
+//
+//	read_val = 1;
+//	next_line = NULL;
+//	while (!ft_strchr(next_line, '\n') && read_val > 0)
+//		read_val = append_line(fd, *buff, &next_line);
+//	return (next_line);
+//}
+
+char	*load_until_line(int fd, char *buff)
 {
 	int		read_val;
 	char	*next_line;
 
 	read_val = 1;
 	next_line = NULL;
+	append_line(buff, &next_line);
 	while (!ft_strchr(next_line, '\n') && read_val > 0)
-		read_val = refresh_line(fd, *buff, &next_line);
-	if (read_val <= 0)
 	{
-		if (*buff)
-		{
-			free(*buff);
-			*buff = NULL;
-		}
+		read_val = read(fd, buff, BUFFER_SIZE);
+		if (read_val)
+			append_line(buff, &next_line);
+	}
+	if (read_val <= 0 && !*next_line)
+	{
+		free(next_line);
+		next_line = NULL;
 	}
 	return (next_line);
 }
@@ -101,16 +148,16 @@ char	*get_next_line(int fd)
 		if (!buff)
 			return (NULL);
 	}
+	next_line = NULL;
 	if (!ft_strchr(buff, '\n'))
-	{
-		next_line = load_buff(fd, &buff);
-	}
+		next_line = load_until_line(fd, buff);
 	else
-		next_line = format_buff(buff);
-	if (*next_line == '\0')
-	{
-		free(next_line);
-		next_line = NULL;
-	}
+		next_line = line_from_buff(buff);
+	format_buff(buff);
+	//if (*next_line == '\0')
+	//{
+	//	free(next_line);
+	//	next_line = NULL;
+	//}
 	return (next_line);
 }

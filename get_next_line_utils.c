@@ -6,11 +6,23 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/21 13:21:54 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:29:38 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+size_t	ft_strlen_char(const char *str, char c)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}
 
 size_t	ft_strlen(const char *str)
 {
