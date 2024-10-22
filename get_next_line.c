@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/22 14:11:19 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:47:37 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,6 @@ void	format_buff(char *buff)
 		ft_bzero(buff, BUFFER_SIZE);
 }
 
-//void	load_buff(int fd, char **buff)
-//{
-//	int		read_val;
-//	char	*next_line;
-//	char	*left_buff;
-//
-//	read_val = 1;
-//	next_line = NULL;
-//	while (!ft_strchr(next_line, '\n') && read_val > 0)
-//		read_val = append_line(fd, *buff, &next_line);
-//	return (next_line);
-//}
-
 char	*load_until_line(int fd, char *buff)
 {
 	int		read_val;
@@ -126,8 +113,11 @@ char	*load_until_line(int fd, char *buff)
 	while (!ft_strchr(next_line, '\n') && read_val > 0)
 	{
 		read_val = read(fd, buff, BUFFER_SIZE);
+		if (read_val >= 0)
+			buff[read_val] = '\0';
 		if (read_val)
 			append_line(buff, &next_line);
+		//format_buff(buff);
 	}
 	if (read_val <= 0 && !*next_line)
 	{
@@ -154,10 +144,5 @@ char	*get_next_line(int fd)
 	else
 		next_line = line_from_buff(buff);
 	format_buff(buff);
-	//if (*next_line == '\0')
-	//{
-	//	free(next_line);
-	//	next_line = NULL;
-	//}
 	return (next_line);
 }
