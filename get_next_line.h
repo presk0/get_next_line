@@ -6,7 +6,7 @@
 /*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:03:26 by supersko          #+#    #+#             */
-/*   Updated: 2024/10/22 14:10:53 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:11:02 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
+# endif
+# ifndef MAX_FD
+#  define MAX_FD 256
 # endif
 # include <stdlib.h>
 # include <unistd.h>
@@ -25,7 +28,7 @@ void	*ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	append_line(char *buff, char **next_line);
 char	*line_from_buff(char *buff);
-char	*load_until_line(int fd, char *buff);
+char	*load_until_line(int fd, char **buff);
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen_char(const char *str, char c);
