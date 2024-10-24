@@ -6,12 +6,13 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/22 15:16:43 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:25:48 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+/*
 size_t	ft_strlen(const char *str)
 {
 	int	i;
@@ -23,7 +24,6 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	src_len;
@@ -108,6 +108,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ret);
 }
 
+*/
 void	*ft_bzero(void *s, size_t n)
 {
 	unsigned int	ii;
@@ -213,9 +214,11 @@ char	*load_until_line(int fd, char **buff)
 	{
 		read_val = read(fd, *buff, BUFFER_SIZE);
 		if (read_val >= 0)
+		{
 			(*buff)[read_val] = '\0';
-		if (read_val)
-			append_line(*buff, &next_line);
+			if (read_val)
+				append_line(*buff, &next_line);
+		}
 		else if (*buff && !**buff)
 		{
 			free(*buff);
