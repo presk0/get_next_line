@@ -6,7 +6,7 @@
 /*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:03:26 by supersko          #+#    #+#             */
-/*   Updated: 2024/10/22 15:11:02 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:43:31 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <stdio.h>
 
-void	format_buff(char *buff);
+void	format_buff(char *buff, char *next_line);
 void	*ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	append_line(char *buff, char **next_line);
