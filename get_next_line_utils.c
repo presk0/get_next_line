@@ -6,23 +6,11 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/10/22 11:29:38 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:20:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-size_t	ft_strlen_char(const char *str, char c)
-{
-	int	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i] && str[i] != c)
-		i++;
-	return (i);
-}
 
 size_t	ft_strlen(const char *str)
 {
@@ -35,7 +23,6 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	src_len;
@@ -106,15 +93,21 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!ret)
 		return (NULL);
 	i = 0;
-	while (i < len_s1)
+	if (s1)
 	{
-		ret[i] = s1[i];
-		i++;
+		while (i < len_s1)
+		{
+			ret[i] = s1[i];
+			i++;
+		}
 	}
-	while (s2[i - len_s1])
+	if (s2)
 	{
-		ret[i] = s2[i - len_s1];
-		i++;
+		while (s2[i - len_s1])
+		{
+			ret[i] = s2[i - len_s1];
+			i++;
+		}
 	}
 	ret[i] = '\0';
 	return (ret);
