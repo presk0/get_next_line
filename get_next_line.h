@@ -6,7 +6,7 @@
 /*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:03:26 by supersko          #+#    #+#             */
-/*   Updated: 2024/11/03 19:43:31 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/11/03 20:09:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ char	*line_from_buff(char *buff);
 char	*load_until_line(int fd, char **buff);
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s1);
-size_t	ft_strlen_char(const char *str, char c);
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *str, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 void	get_next_line_tester(int argc, char **argv);
 
 #endif
