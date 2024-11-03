@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/11/03 15:39:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:44:28 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,11 @@ char	*load_until_line(int fd, char **buff)
 	while (!ft_strchr(next_line, '\n') && read_val > 0)
 	{
 		read_val = read(fd, *buff, BUFFER_SIZE);
-		(*buff)[read_val] = '\0';
-		append_line(*buff, &next_line);
+		if (read_val >= 0)
+		{
+			(*buff)[read_val] = '\0';
+			append_line(*buff, &next_line);
+		}
 		//format_buff(*buff);
 	}
 	return (next_line);
