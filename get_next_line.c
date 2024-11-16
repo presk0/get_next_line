@@ -6,30 +6,46 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/11/03 21:22:33 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/11/16 14:52:27 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 
 char	*pop_line(char *buff)
 {
-	char	*return_car;
+	char	*carriage_return;
 	char	*line;
 
 	line = NULL;
-	return_car = ft_strchr(buff, '\n');
-	if (!return_car)
+	carriage_return = ft_strchr(buff, '\n');
+	if (!carriage_return)
 	{
 		line = ft_substr(buff, 0, ft_strlen(buff) + 1);
 		*buff = '\0';
 	}
 	else
 	{
-		line = ft_substr(buff, 0, return_car - buff + 1);
-		ft_strlcpy(buff, return_car + 1, BUFFER_SIZE);
+		line = ft_substr(buff, 0, carriage_return - buff + 1);
+		ft_strlcpy(buff, carriage_return + 1, BUFFER_SIZE);
 	}
 	return (line);
+}
+
+char	*clean_lines(char **next_line, char **buff)
+{
+	if (next_line)
+	{
+		free(*next_line);
+		*next_line = NULL;
+	}
+	if (buff)
+	{
+		free(*buff);
+		*buff = NULL;
+	}
+	return (NULL);
 }
 
 char	*load_until_line(int fd, char **buff)
@@ -37,7 +53,7 @@ char	*load_until_line(int fd, char **buff)
 	int		read_val;
 	char	*next_line;
 	char	*tmp;
-	char	*lfb;
+	char	*line_buff;
 
 	read_val = 1;
 	next_line = pop_line(*buff);
@@ -47,14 +63,13 @@ char	*load_until_line(int fd, char **buff)
 		if (read_val >= 0)
 		{
 			(*buff)[read_val] = 0;
-			lfb = pop_line(*buff);
-			tmp = ft_strjoin(next_line, lfb);
-			free(lfb);
-			lfb = NULL;
-			free(next_line);
-			next_line = NULL;
+			line_buff = pop_line(*buff);
+			tmp = ft_strjoin(next_line, line_buff);
+			clean_lines(&next_line, &line_buff);
 			next_line = tmp;
 		}
+		else
+			return (clean_lines(&next_line, NULL));
 	}
 	return (next_line);
 }
@@ -64,26 +79,21 @@ char	*get_next_line(int fd)
 	static char	*buff;
 	char		*next_line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buff)
 	{
 		buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!buff)
 			return (NULL);
-		*buff = '\0';
+		buff[0] = '\0';
 	}
 	next_line = NULL;
-	if (!ft_strchr(buff, '\n'))
-		next_line = load_until_line(fd, &buff);
-	else
+	if (ft_strchr(buff, '\n'))
 		next_line = pop_line(buff);
-	if (!*next_line)
-	{
-		free(next_line);
-		free(buff);
-		buff = NULL;
-		return (NULL);
-	}
+	else
+		next_line = load_until_line(fd, &buff);
+	if (!next_line || (next_line && !*next_line))
+		clean_lines(&next_line, &buff);
 	return (next_line);
 }

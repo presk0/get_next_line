@@ -10,37 +10,16 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	//
 BUFFER_SIZE	get_next_line.h	/^#  define BUFFER_SIZE /;"	d
-X_H	get_next_line.h	/^# define X_H$/;"	d
-append_line	get_next_line.c	/^int	append_line(int fd, char *buff, char **next_line)$/;"	f	typeref:typename:int
-dependencies	package-lock.json	/^      "dependencies": {$/;"	o	object:packages.
-dependencies	package-lock.json	/^  "dependencies": {$/;"	o
-dependencies	package.json	/^  "dependencies": {$/;"	o
-format_buff	get_next_line.c	/^void	format_buff(char *buff)$/;"	f	typeref:typename:void
-ft_bzero	get_next_line.c	/^void	*ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void *
-ft_calloc	get_next_line.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
+GET_NEXT_LINE_H	get_next_line.h	/^# define GET_NEXT_LINE_H$/;"	d
+MAX_FD	get_next_line.h	/^#  define MAX_FD /;"	d
+ft_backslashzero	get_next_line.c	/^char	*ft_backslashzero(char *next_line)$/;"	f	typeref:typename:char *
 ft_strchr	get_next_line_utils.c	/^char	*ft_strchr(const char *str, int c)$/;"	f	typeref:typename:char *
-ft_strjoin	get_next_line_utils.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f	typeref:typename:char *
+ft_strjoin	get_next_line_utils.c	/^char	*ft_strjoin(char *s1, char *s2)$/;"	f	typeref:typename:char *
 ft_strlcpy	get_next_line_utils.c	/^size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)$/;"	f	typeref:typename:size_t
 ft_strlen	get_next_line_utils.c	/^size_t	ft_strlen(const char *str)$/;"	f	typeref:typename:size_t
 ft_substr	get_next_line_utils.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
 get_next_line	get_next_line.c	/^char	*get_next_line(int fd)$/;"	f	typeref:typename:char *
 get_next_line_tester	main.c	/^void	get_next_line_tester(int argc, char **argv)$/;"	f	typeref:typename:void
-gimp	package-lock.json	/^        "gimp": "^0.0.1-security"$/;"	s	object:packages..dependencies
-gimp	package-lock.json	/^    "gimp": {$/;"	o	object:dependencies
-gimp	package.json	/^    "gimp": "^0.0.1-security"$/;"	s	object:dependencies
-integrity	package-lock.json	/^      "integrity": "sha512-5eB8\/nPAS9GA2vm2wiNBJx7QPke8QkqiPSUrog0CrO5vJSuXZlTRwTuLRsB+hhm6VREa/;"	s	object:dependencies.gimp
-integrity	package-lock.json	/^      "integrity": "sha512-5eB8\/nPAS9GA2vm2wiNBJx7QPke8QkqiPSUrog0CrO5vJSuXZlTRwTuLRsB+hhm6VREa/;"	s	object:packages.node_modules/gimp
-line_from_buff	get_next_line.c	/^char	*line_from_buff(int fd, char *buff)$/;"	f	typeref:typename:char *
-load_buff	get_next_line.c	/^void	load_buff(int fd, char **buff)$/;"	f	typeref:typename:void
-load_until_line	get_next_line.c	/^char	*load_until_line(int fd, char *buff)$/;"	f	typeref:typename:char *
-lockfileVersion	package-lock.json	/^  "lockfileVersion": 2,$/;"	n
+load_until_line	get_next_line.c	/^char	*load_until_line(int fd, char **buff)$/;"	f	typeref:typename:char *
 main	main.c	/^int	main(int argc, char **argv)$/;"	f	typeref:typename:int
-name	package-lock.json	/^  "name": "get_next_line",$/;"	s
-node_modules/gimp	package-lock.json	/^    "node_modules\/gimp": {$/;"	o	object:packages
-packages	package-lock.json	/^  "packages": {$/;"	o
-requires	package-lock.json	/^  "requires": true,$/;"	b
-resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/gimp\/-\/gimp-0.0.1-security.tgz",$/;"	s	object:dependencies.gimp
-resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/gimp\/-\/gimp-0.0.1-security.tgz",$/;"	s	object:packages.node_modules/gimp
-tester	main.c	/^void	tester(int argc, char **argv)$/;"	f	typeref:typename:void
-version	package-lock.json	/^      "version": "0.0.1-security",$/;"	s	object:dependencies.gimp
-version	package-lock.json	/^      "version": "0.0.1-security",$/;"	s	object:packages.node_modules/gimp
+pop_line	get_next_line.c	/^char	*pop_line(char *buff)$/;"	f	typeref:typename:char *
